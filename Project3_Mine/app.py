@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from model.dbHandler import match_exact, match_like
 
 app = Flask(__name__)
@@ -11,9 +11,8 @@ def index():
     1. Provide usage instruction formattes as JSON
     """
     response = {"usage": "/dict?=<words>"}
-    # Since this is a website with front-end, we don't need to send the usage instructions
     
-    return jsonify(response)
+    return render_template("index.html")
     
 
 @app.get("/dict")
@@ -44,8 +43,7 @@ def dictionary():
             else:
                 response["words"].append(error_msg)
 
-    return jsonify(response)
+    return render_template("results.html", response=jsonify(response))
 
 if __name__ == "__main__":
     app.run()
-
